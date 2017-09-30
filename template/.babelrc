@@ -1,9 +1,8 @@
 {
     "presets": [
-        ["es2016", { "modules": false }], "stage-3"
+        ["es2016"], "stage-3"
     ],
     "plugins": [
-        "transform-vue-jsx",
         "transform-object-rest-spread",
         "transform-runtime"
     ],
