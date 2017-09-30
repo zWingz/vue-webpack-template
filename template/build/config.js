@@ -2,6 +2,12 @@
 var path = require('path');
 
 module.exports = {
+    entry: {
+        app: {
+            path: './src/view/app',
+            title: 'app'
+        }
+    },
     build: {
         env: {
             // NODE_ENV: '"development"'
