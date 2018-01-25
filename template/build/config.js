@@ -1,38 +1,38 @@
-// see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path');
+const time = new Date().getTime();
 
 module.exports = {
     entry: {
-        app: {
-            path: './src/view/app',
-            title: 'app'
+        {{#if multipage}}
+        index: {
+            path: './src/view/index',
+            title: 'index'
         }
+        {{else}}
+        main: {
+            path: './src/main',
+            title: 'main'
+        }
+        {{/if}}
     },
     build: {
         env: {
             // NODE_ENV: '"development"'
             NODE_ENV: '"production"'
         },
-        // index: path.resolve(__dirname, '../dist/'),
-        index: path.resolve(__dirname, '../release/'),
+        index: path.resolve(__dirname, `../release-${time}/`),
         // 编译输出的静态资源根路径
-        // assetsRoot: path.resolve(__dirname, '../dist'),
-        assetsRoot: path.resolve(__dirname, '../release'),
+        assetsRoot: path.resolve(__dirname, `../release-${time}`),
+        devtool: 'cheap-module-source-map',
         // 编译输出的二级目录
         assetsSubDirectory: 'assets',
         // 编译发布上线路径的根目录，可配置为资源服务器域名或 CDN 域名
         assetsPublicPath: '/',
         // 是否开启 cssSourceMap
         productionSourceMap: false,
-        // Gzip off by default as many popular static hosts such as
-        // Surge or Netlify already gzip all static assets for you.
-        // Before setting to `true`, make sure to:
-        // npm install --save-dev compression-webpack-plugin
-        // 是否开启 gzip
-        productionGzip: false,
-        // 需要使用 gzip 压缩的文件扩展名
-        productionGzipExtensions: ['js', 'css'],
-        extract: true
+        extract: true,
+        bundleAnalyzerReport: false,
+        useDll: false
     },
     test: {
         env: {
@@ -48,21 +48,17 @@ module.exports = {
         assetsPublicPath: '/',
         // 是否开启 cssSourceMap
         productionSourceMap: false,
-        // Gzip off by default as many popular static hosts such as
-        // Surge or Netlify already gzip all static assets for you.
-        // Before setting to `true`, make sure to:
-        // npm install --save-dev compression-webpack-plugin
-        // 是否开启 gzip
-        productionGzip: false,
-        // 需要使用 gzip 压缩的文件扩展名
-        productionGzipExtensions: ['js', 'css'],
-        extract: true
+        extract: true,
+        bundleAnalyzerReport: false,
+        useDll: false
     },
     dev: {
         env: {
             NODE_ENV: '"development"'
         },
-        port: 8089,
+        devtool: 'cheap-module-eval-source-map',
+        autoOpenBrowser: true,
+        // port: 8089,
         // 编译输出的二级目录
         assetsSubDirectory: 'assets',
         // 编译发布上线路径的根目录，可配置为资源服务器域名或 CDN 域名

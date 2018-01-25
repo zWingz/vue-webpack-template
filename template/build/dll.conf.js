@@ -2,14 +2,15 @@ const webpack = require('webpack');
 var config = require('./config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 var utils = require('./utils')
-var path = require('path')
+var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
+var path = require('path');
+// 需要打包的dll入口
 const dll = [
-  'vue/dist/vue.runtime.esm.js',
-  'vue-router/dist/vue-router.esm.js',
-  'vuex/dist/vuex.esm.js',
   'axios',
-  'qs'
+  {{#if_eq frame "vue"}}
+  'vue',
+  {{/if_eq}}
 ];
 
 module.exports = {
@@ -48,7 +49,7 @@ module.exports = {
                             }
                         }
                     ],
-                    fallback: 'vue-style-loader'
+                    fallback: 'style-loader'
                 })
             },
             {
@@ -68,6 +69,12 @@ module.exports = {
             filename: utils.assetsPath('css/[name].[contenthash].css'),
             allChunks: false
         }),
+        new OptimizeCSSPlugin({
+            assetNameRegExp: /\.css$/g,
+            cssProcessor: require('cssnano'),
+            cssProcessorOptions: { discardComments: { removeAll: true }, safe: true }, // 删除注释
+            canPrint: true
+        }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 // 在UglifyJs删除没有用到的代码时不输出警告  
@@ -82,9 +89,9 @@ module.exports = {
             }
         }),
         new webpack.DllPlugin({
-            path: path.resolve(__dirname, '../dll/bundel.manifest.json'),
-            name: '[name]_[chunkhash]',
-            context: __dirname,
+            path: path.resolve(__dirname, '../dll/bundel.manifest.json'), // 务必与prod.conf.js中一致
+            name: '[name]_[chunkhash]', // 和output.library 一样
+            context: __dirname, // 和DllReferencePlugin中context一致
         }),
   ],
 };

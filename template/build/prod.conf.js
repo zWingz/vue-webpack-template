@@ -1,25 +1,25 @@
 /* eslint-disable */
-var path = require('path')
-var config = require('./config')
-var utils = require('./utils')
-var webpack = require('webpack')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./base.conf')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var isProduction = process.env.NODE_ENV === 'production';
+const path = require('path')
+const config = require('./config')
+const utils = require('./utils')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const baseWebpackConfig = require('./base.conf')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const isProduction = process.env.NODE_ENV === 'production';
 // 直接将manifest写入到html中
-var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
-// var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 // webpack内置的不支持压缩es6,所以使用最原始的plugin压缩
 const UglifyEsPlugin = require('uglifyjs-webpack-plugin');
 
-var env = !isProduction ?
+const env = !isProduction ?
     config.test.env :
     config.build.env
     // console.log('now env is --->', env)
 
-var webpackConfig = merge(baseWebpackConfig, {
+const webpackConfig = merge(baseWebpackConfig, {
     // 注入styleLoaders
     module: {
         rules: utils.styleLoaders({ sourceMap: config.build.productionSourceMap, extract: config.build.extract })
@@ -29,6 +29,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         filename: utils.assetsPath('js/[name].[chunkhash].js'),
         chunkFilename: utils.assetsPath('js/[name].[chunkhash].js'),
     },
+    devtool: config.build.productionSourceMap ? config.build.devtool : false,
     plugins: [
         // 定义变量
         new webpack.DefinePlugin({
@@ -61,6 +62,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         }),
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/[name].[contenthash].css'),
+            allChunks: false
         }),
         // 使用cssnano来压缩以及优化css
         new OptimizeCSSPlugin({
@@ -70,7 +72,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             canPrint: true
         }),
         // 配置htmlWebpackPlugin
-        ...(function() {
+        ...(function () {
             return Object.keys(config.entry).map(each => {
                 return utils.HtmlCreator({
                     title: config.entry[each].title,
@@ -88,8 +90,8 @@ var webpackConfig = merge(baseWebpackConfig, {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             // chunks: 'vendor'
-            minChunks: function(module, count) {
-                return (
+            minChunks: function (module, count) {
+                return(
                     module.resource && // 当前引用的资源
                     /\.js$/.test(module.resource) && // 只找js的
                     module.resource.indexOf(
@@ -104,17 +106,29 @@ var webpackConfig = merge(baseWebpackConfig, {
             chunks: Object.keys(config.entry),
             minChunks: 2
         }),
+
         // 提取manifest
         new webpack.optimize.CommonsChunkPlugin({
             name: 'manifest',
             chunks: ['vendor', 'common'] // 只将这些打包进manifest中
         }),
-        // 引入dll, 如有有需要的话.请先执行dll.conf.js完成dll的打包
-        // new webpack.DllReferencePlugin({
-        //     context: __dirname,
-        //     manifest: require("../dll/bundel.manifest.json"), // 务必与dll.conf.js中一致
-        // })
+        // copy custom static assets
+        new CopyWebpackPlugin([{
+                from: path.resolve(__dirname, '../static'),
+                to: config.build.assetsSubDirectory,
+                ignore: ['.*']
+            }
+        ]),
     ]
 })
-
+if(config.build.bundleAnalyzerReport) {
+    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+    webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+if(config.build.useDll) {
+    webpackConfig.plugins.push(new webpack.DllReferencePlugin({
+        context: __dirname,
+        manifest: require("../dll/bundel.manifest.json"), // 务必与dll.conf.js中一致
+    }))
+}
 module.exports = webpackConfig

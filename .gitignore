@@ -1,0 +1,6 @@
+_Store
+npm-debug.log
+selenium-debug.log
+.vscode
+npm-debug.*
+.DS_Store

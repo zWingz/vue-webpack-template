@@ -1,10 +1,11 @@
 {
     "presets": [
-        ["es2016"], "stage-3"
+        ["es2015", { "modules": false }],
+        "stage-3"{{#if_eq frame "react"}}, "react"{{/if_eq}}
     ],
     "plugins": [
-        "transform-object-rest-spread",
-        "transform-runtime"
+         "transform-object-rest-spread",
+         "transform-runtime"{{#if_eq frame "react"}}, "transform-decorators-legacy"{{/if_eq}}
     ],
     "comments": false
 }

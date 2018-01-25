@@ -1,29 +1,22 @@
 import Vue from 'vue';
-import 'src/http';
+import 'http'; // 初始化http
 import { HttpRoot, isProduction } from 'js/ConstValue.js';
-import 'sass/global.scss';
-// window.onerror = function (errorMessage, scriptURI, lineNumber, columnNumber, errorObj) {
-//     console.log('错误信息：', errorMessage);
-//     console.log('出错文件：', scriptURI);
-//     console.log('出错行号：', lineNumber);
-//     console.log('出错列号：', columnNumber);
-//     console.log('错误详情：', errorObj);
-// }
-window.getScrollTop = function() {
-    return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-}
+/**
+ * 构建vue实例
+ *
+ * @export
+ * @param {VueRouter} router router实例
+ * @param {Vuex} store store实例
+ * @param {App} app vueApp咯
+ * @param {String} element 需要挂载的dom的id
+ * @returns
+ */
 export default function(router, store, app, element) {
     // 配置Vue调试工具
     Vue.config.devtools = !isProduction;
+    // 将httpRoot挂在vue上
     Vue.prototype.$httpRoot = HttpRoot;
-
-
-
-    // Vue.config.errorHandler = function (err, vm, info) {
-    //     console.log('err:', err)
-    //     console.log('vm:', vm)
-    //     console.log('info:', info)
-    // }
+    // 返回构建完成的vue实例
     return new Vue({
         router,
         store,
