@@ -45,10 +45,13 @@ const webpackConfig = merge(baseWebpackConfig, {
         // // ...
         // }),
         new UglifyEsPlugin({
+            parallel: true,
+            cache: true,
+            sourceMap: true,
             uglifyOptions: {
                 ecma: 8,
                 compress: {
-                    // 在UglifyJs删除没有用到的代码时不输出警告  
+                    // 在UglifyJs删除没有用到的代码时不输出警告
                     warnings: false,
                     // 删除所有的 `console` 语句
                     // 还可以兼容ie浏览器
@@ -80,7 +83,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 })
             })
         })(),
-        // webpack3.0新增, 
+        // webpack3.0新增,
         // 因为webpack2处理后的每个模块都被一个函数包裹,会导致闭包函数增多降低代码效率
         // 用于减少打包后的闭包函数数量从而加快js执行速度
         new webpack.optimize.ModuleConcatenationPlugin(),
