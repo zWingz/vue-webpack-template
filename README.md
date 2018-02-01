@@ -147,7 +147,7 @@
 - `dll` 打包dll文件
 - `profile` 生成webpack分析文件stat.json
 - `lint` 针对js/vue/jsx文件进行eslint检查
-- `lint-fix` 针对js/vue/js文件检查eslint并启用--fix选项自动修复,用于初始化阶段
+- `lint-fix` 对js/vue/js文件检查eslint并启用--fix选项自动修复,用于初始化阶段
 - `eslint` 暴露eslint接口,供pre-commit使用
 - `git-hook` 将hooks/pre-commit软连接到.git/hooks/pre-commit中
 

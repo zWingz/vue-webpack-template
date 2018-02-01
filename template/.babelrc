@@ -1,11 +1,22 @@
 {
-    "presets": [
-        ["es2015", { "modules": false }],
-        "stage-3"{{#if_eq frame "react"}}, "react"{{/if_eq}}
-    ],
-    "plugins": [
-         "transform-object-rest-spread",
-         "transform-runtime"{{#if_eq frame "react"}}, "transform-decorators-legacy"{{/if_eq}}
-    ],
-    "comments": false
+  {{#if_eq frame "react"}}
+  "plugins": ["transform-decorators-legacy"],
+  {{/if_eq}}
+  "comments": false,
+  "env": {
+      "development": {
+          {{#if_eq frame "react"}}
+          "presets": ["react"],
+          {{/if_eq}}
+          "plugins": ["transform-object-rest-spread", "syntax-dynamic-import"]
+      },
+      "production": {
+          "presets": [["es2015", {"modules": false}], "stage-2"{{#if_eq frame "react"}}, "react"{{/if_eq}}],
+          "plugins": ["transform-runtime"]
+      },
+      "test": {
+          "presets": ["env", "stage-2"],
+          "plugins": ["transform-runtime", "istanbul"]
+      }
+  }
 }
