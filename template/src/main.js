@@ -29,5 +29,5 @@ export default vm;
 {{/if_eq}}
 
 {{#if_eq frame "none"}}
-import '{{#sass}}sass{{else}}css{{/sass}}/markdown';
+import '{{#sass}}sass{{else}}css{{/sass}}/markdown'
 {{/if_eq}}
