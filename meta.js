@@ -82,7 +82,11 @@ module.exports = {
             "short": "4"
       }],
             "defalut": "4"
-        }
+        },
+        docker: {
+            type: 'confirm',
+            message: 'use docker?'
+        },
     },
     // 如果某些选项匹配上的话才会自动加入下面文件
     filters: {
@@ -100,7 +104,9 @@ module.exports = {
         'src/view/*': 'multipage',
         'src/view/App.vue': 'multipage&&frame === "vue"',
         "src/main.js": '!multipage',
-        "src/App.vue": '!multipage&&frame === "vue"'
+        "src/App.vue": '!multipage&&frame === "vue"',
+        "docker-compose.yml": 'docker',
+        "DockerFile": 'docker'
     },
     // completeMessage: 'To get started:\n\n  {{^inPlace}}cd {{destDirName}}\n  {{/inPlace}}npm install\n  npm run dev\n\nDocumentation can be found at https://github.com/zWingz/webpack-template',
     complete: function(data, { chalk }) {
