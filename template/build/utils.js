@@ -2,7 +2,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const path = require('path')
 const config = require('./config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 
 // 资源路径
@@ -51,10 +51,8 @@ exports.cssLoaders = function (options = {}) {
             })
         }
         if(options.extract) {
-            return ExtractTextPlugin.extract({
-                use: loaders,
-                fallback: '{{#if_eq frame "vue"}}vue-{{/if_eq}}style-loader'
-            })
+          loaders.unshift(MiniCssExtractPlugin.loader)
+          return loaders
         }
         return ['{{#if_eq frame "vue"}}vue-{{/if_eq}}style-loader'].concat(loaders)
     }
@@ -100,13 +98,6 @@ exports.HtmlCreator = function (options) {
             collapseWhitespace: true,
             removeAttributeQuotes: true
         },
-        chunksSortMode: (c1, c2) => {
-            let orders = ['manifest', 'vendor', 'common', options.chunkName];
-            let o1 = orders.indexOf(c1.names[0]);
-            let o2 = orders.indexOf(c2.names[0]);
-            return o1 - o2;
-        },
-        favicon: './favicon.ico',
-        chunks: ['manifest', 'vendor', 'common', options.chunkName]
+        favicon: './favicon.ico'
     })
 }

@@ -7,16 +7,16 @@ import createRouter from 'js/createRouter';
 // App.vue
 import App from 'App.vue';
 // 引入全局state
-import rootState from 'store/rootState';
+import {rootState} from 'store';
 import 'js/registerComponent';
 
 /** route */
-import baseRoute from 'router/baseRoute';
+import {baseRoutes} from 'router';
 vue.use(Vuex)
 // store
 const { state, mutations, actions, getters } = rootState;
 // 路由
-const router = createRouter(baseRoute)
+const router = createRouter(baseRoutes)
 const store = new Vuex.Store({
     state,
     mutations,

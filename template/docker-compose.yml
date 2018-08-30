@@ -1,13 +1,10 @@
-version: "3"
+
+version: '3'
 services:
-  webapp:
-    build: .
-    image: {{ name }}-webapp
-    ports:
-      - "{{port}}:{{port}}"
+  depoly:
+    container_name: {{ name_container }}
+    image: node:carbon
+    working_dir: /project
     volumes:
-      - ".:/code"
-    command: |
-      /bin/bash -c "
-        npm install && npm run dev
-      "
+        - .:/project
+    # command: npm run build

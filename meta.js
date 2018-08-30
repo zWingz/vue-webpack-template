@@ -106,7 +106,7 @@ module.exports = {
         "src/main.js": '!multipage',
         "src/App.vue": '!multipage&&frame === "vue"',
         "docker-compose.yml": 'docker',
-        "DockerFile": 'docker'
+        "depoly.sh": 'docker',
     },
     // completeMessage: 'To get started:\n\n  {{^inPlace}}cd {{destDirName}}\n  {{/inPlace}}npm install\n  npm run dev\n\nDocumentation can be found at https://github.com/zWingz/webpack-template',
     complete: function(data, { chalk }) {

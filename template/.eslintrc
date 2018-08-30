@@ -1,15 +1,14 @@
 {
     "root": true,
-    {{#if_eq frame "vue"}}
     "parserOptions": {
       "parser": "babel-eslint",
       "ecmaVersion": 2017,
       "sourceType": "module"
     },
-    {{else}}
-    "parser": "babel-eslint",
-    {{/if_eq}}
-    "extends": ["eslint-config-airbnb-base"{{#if_eq frame "vue"}}, "plugin:vue/recommended"{{/if_eq}}],
+    "extends": ["eslint-config-airbnb-base"
+        {{#if_eq frame "vue"}}, "plugin:vue/recommended"{{/if_eq}}
+        {{#if_eq frame "react"}}, "plugin:react/recommended"{{/if_eq}}
+    ],
     "globals": {
         "$": true,
         "define": true,
@@ -22,11 +21,6 @@
         "es6": true,
         "amd": true
     },
-    "plugins":[
-        {{#if_eq frame "react"}}
-        "react",
-        {{/if_eq}}
-    ],
     "rules": {
       {{#if_eq indent "4"}}
       "indent":[2,4,{

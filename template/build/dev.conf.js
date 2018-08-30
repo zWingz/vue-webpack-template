@@ -1,7 +1,6 @@
 var config = require('./config')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var utils = require('./utils')
 var baseWebpackConfig = require('./base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -24,14 +23,13 @@ devRules.push({
     exclude: /node_modules|vendor|dist/,
 });
 module.exports = merge(baseWebpackConfig, {
+    mode: 'development',
     module: {
         rules: devRules
     },
     devtool: config.dev.devtool,
     plugins: [
-        new webpack.NamedModulesPlugin(),
         new webpack.DefinePlugin({ 'process.env': config.dev.env }),
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
         new FriendlyErrorsPlugin(),
         {{#if multipage}}
@@ -54,44 +52,5 @@ module.exports = merge(baseWebpackConfig, {
             chunks: ['vendors', 'main']
         }),
         {{/if}}
-        new ExtractTextPlugin({
-            filename: utils.assetsPath('css/[name].[contenthash].css'),
-            allChunks: false
-        })
-    ],
-    devServer: {
-        hot: true,
-        open: config.dev.autoOpenBrowser,
-        overlay: { warnings: false, errors: true }, // 是否将errors显示在页面
-        // 如果使用history模式.则需要配置重定向.
-        {{#if multipage}}
-        historyApiFallback: {
-            rewrites: [
-                // 可以手动配置重定向
-                // { from: /\//, to: '/app.html' },
-                // 也可以根据entry自动生成
-                // 规则是将 entryKey下的路由重定向到 entryKey.html
-                ...(function () {
-                    return Object.keys(config.entry).map(each => {
-                        return {
-                            from: new RegExp(each + '\/'),
-                            to: `/${each}.html`
-                        }
-                    })
-                })()
-            ]
-        },
-        // openPage: '/page1'
-        {{else}}
-        historyApiFallback: true,
-        {{/if}}        
-        // 跨域代理
-        proxy: {
-            '/mock': {
-                target: '',
-                secure: false,
-                pathRewrite: { "^/mock": "" }
-            }
-        }
-    }
+    ]
 })

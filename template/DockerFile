@@ -1,3 +1,0 @@
-FROM node:carbon
-RUN mkdir /code
-WORKDIR /code

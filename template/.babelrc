@@ -1,22 +1,79 @@
+
+{{#if_eq frame "react"}}
 {
-  {{#if_eq frame "react"}}
-  "plugins": ["transform-decorators-legacy"],
-  {{/if_eq}}
+  "presets": [
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": "css"
+      }
+    ],
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    "@babel/plugin-proposal-object-rest-spread"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "browsers": [
+                "last 2 versions"
+              ]
+            },
+            "modules": false,
+            "useBuiltIns": "usage"
+          }
+        ],
+        "@babel/preset-react"
+      ],
+      "plugins": [
+        "@babel/plugin-transform-runtime"
+      ]
+    }
+  }
+}
+{{else}}
+{
   "comments": false,
   "env": {
       "development": {
-          {{#if_eq frame "react"}}
-          "presets": ["react"],
-          {{/if_eq}}
-          "plugins": ["transform-object-rest-spread", "syntax-dynamic-import"]
+          "plugins": [
+              "@babel/plugin-proposal-object-rest-spread",
+              "@babel/plugin-syntax-dynamic-import"
+          ]
       },
       "production": {
-          "presets": [["es2015", {"modules": false}], "stage-2"{{#if_eq frame "react"}}, "react"{{/if_eq}}],
-          "plugins": ["transform-runtime"]
-      },
-      "test": {
-          "presets": ["env", "stage-2"],
-          "plugins": ["transform-runtime", "istanbul"]
+          "presets": [
+              [
+                  "@babel/preset-env",
+                  {
+                      "modules": false
+                  }
+              ]
+          ],
+          "plugins": [
+              "@babel/plugin-transform-runtime",
+              "@babel/plugin-syntax-dynamic-import",
+          ]
       }
   }
 }
+{{/if_eq}}

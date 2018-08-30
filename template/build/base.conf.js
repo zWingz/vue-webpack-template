@@ -1,9 +1,11 @@
-var path = require('path')
-var config = require('./config')
-var utils = require('./utils')
-var projectRoot = path.resolve(__dirname, '../')
-var isProduction = process.env.NODE_ENV !== 'development';
-
+const path = require('path')
+const config = require('./config')
+const utils = require('./utils')
+const projectRoot = path.resolve(__dirname, '../')
+const isProduction = process.env.NODE_ENV !== 'development';
+{{#if_eq frame "vue"}}
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+{{/if_eq}}
 // console.log('base conf', process.env.NODE_ENV, 'isProduction :', isProduction)
 const entries = {};
 Object.keys(config.entry).forEach(each => {
@@ -52,27 +54,8 @@ module.exports = {
         rules: [
             {{#if_eq frame "vue"}}
             {
-                test: /\.vue$/,
-                use: [
-                    {
-                        loader: 'vue-loader',
-                        options: {
-                            loaders: utils.cssLoaders({
-                                sourceMap: isProduction ?
-                                    config.build.productionSourceMap : config.dev.cssSourceMap,
-                                extract: isProduction ?
-                                    config.build.extract : config.dev.extract
-                            }),
-                            preserveWhitespace: false,
-                            transformToRequire: {
-                                video: 'src',
-                                source: 'src',
-                                img: 'src',
-                                image: 'xlink:href'
-                            }
-                        }
-                    }
-                ]
+              test: /\.vue$/,
+              loader: 'vue-loader'
             },
             {{/if_eq}}
             {
@@ -126,6 +109,8 @@ module.exports = {
         child_process: 'empty',
         {{/if_eq}}
         Buffer: false
-    }
-
+    },
+    {{#if_eq frame "vue"}}
+    plugins: [new VueLoaderPlugin()]
+    {{/if_eq}}
 }
