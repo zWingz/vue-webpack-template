@@ -121,10 +121,4 @@ if(config.build.bundleAnalyzerReport) {
     const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
     webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
-if(config.build.useDll) {
-    webpackConfig.plugins.push(new webpack.DllReferencePlugin({
-        context: __dirname,
-        manifest: require("../dll/bundel.manifest.json"), // 务必与dll.conf.js中一致
-    }))
-}
 module.exports = webpackConfig

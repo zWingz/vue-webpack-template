@@ -14,18 +14,19 @@
   - base.conf.js
   - dev.conf.js
   - prod.conf.js
-  - dll.conf.js
   - utils.js
 
 ## 运行环境
 
     node>=8.0.0
     npm>=5.0
-    webpack>=3.3.0
+    webpack@4
+    vue@2.5.17
+    react@16
 
 ## Build Setup
 
-- 安装 [cli](https://github.com/zWingz/create-app-cli) / 使用vue-cli亦可
+- 安装 [cli](https://github.com/zWingz/create-app-cli) / 使用vue-cli@2亦可
 
 - 执行
     ```bash
@@ -70,7 +71,7 @@
 
 - 样式(`Sass/Css`+`postcss`)
 
-- babel(`preset2015`+`stage-3`+`transform-runtime`+`transform-object-rest-spread`)
+- babel@7
 
 ## 文件介绍
 
@@ -84,7 +85,6 @@
   - assetsRoot 静态资源路径
   - assetsPublicPath 打包输出路径
   - publicPath修改
-  - useDll 是否独立打包Dll
   - bundleAnalyzerReport 是否进行打包分析
   - devtool 配置
   - autoOpenBrowser 是否自动打开浏览器
@@ -105,12 +105,6 @@
 
     在此会添加`eslint-loader`并且使用`eslint-friendly-formatter`格式化输出
 
-    可配置信息包括:
-    - devServer
-      - historyApiFallback (除了自动注入entry对应的路由外.可以自行添加或者完全修改)
-      - proxy (跨域代理,请自行配置)
-    - overlay 是否将errors显示在页面上
-
 - prod.conf.js
 
     生产环境配置文件
@@ -120,14 +114,6 @@
     可配置信息包括:
     - htmlPlugin (除了根据entry来生成的html外,需要自行添加额外的html任务, 如果需要定制html模板请修改utils.js下的`HtmlCreator`, 相信都看得懂)
 
-- dll.conf.js
-
-    打包dll配置文件
-
-    在此会将制定的库打包成独立的dll文件.以供上述`prod.conf.js`中引入,请务必注意配置说明.
-
-    可配置信息:
-    - 需要打包的entry(添加需要打包成dll的入口)
 
 - utils.js
 
@@ -143,8 +129,6 @@
 
 - `build` 打包命令, 将NODE_ENV设为production,并执行webpack打包
 - `dev` 运行开发环境, 将NODE_ENV设为development,并执行webpack-dev-server
-- `test-build` 以生成环境配置打包,但保留sourceMap,用于测试环境
-- `dll` 打包dll文件
 - `profile` 生成webpack分析文件stat.json
 - `lint` 针对js/vue/jsx文件进行eslint检查
 - `lint-fix` 对js/vue/js文件检查eslint并启用--fix选项自动修复,用于初始化阶段
