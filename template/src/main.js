@@ -27,7 +27,3 @@ const store = new Vuex.Store({
 const vm = createApp(router, store, App, 'app');
 export default vm;
 {{/if_eq}}
-
-{{#if_eq frame "none"}}
-import '{{#sass}}sass{{else}}css{{/sass}}/markdown'
-{{/if_eq}}

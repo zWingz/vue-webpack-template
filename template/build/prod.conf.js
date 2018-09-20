@@ -92,7 +92,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     plugins: [
         // 定义变量
         new webpack.DefinePlugin({
-            'process.env': env
+            'process.env': env,
+            'isProduction': true
         }),
         new MiniCssExtractPlugin({
           filename: utils.assetsPath('css/[name].[contenthash].css')

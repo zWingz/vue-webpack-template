@@ -12,7 +12,8 @@
     "globals": {
         "$": true,
         "define": true,
-        "require": true
+        "require": true,
+        "isProduction": true
     },
     "env": {
         "browser": true,

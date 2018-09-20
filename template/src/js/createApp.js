@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import 'http'; // 初始化http
-import { HttpRoot, isProduction } from 'js/ConstValue.js';
+import { HttpRoot } from 'js/ConstValue.js';
 /**
  * 构建vue实例
  *

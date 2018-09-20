@@ -29,7 +29,7 @@ module.exports = merge(baseWebpackConfig, {
     },
     devtool: config.dev.devtool,
     plugins: [
-        new webpack.DefinePlugin({ 'process.env': config.dev.env }),
+        new webpack.DefinePlugin({ 'process.env': config.dev.env, 'isProduction': false }),
         new webpack.NoEmitOnErrorsPlugin(),
         new FriendlyErrorsPlugin(),
         {{#if multipage}}
