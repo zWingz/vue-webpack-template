@@ -1,7 +1,7 @@
 
 version: '3'
 services:
-  depoly:
+  deploy:
     container_name: {{ name_container }}
     image: node:carbon
     working_dir: /project
